@@ -30,20 +30,22 @@
 <body>
   <h1>Diagrama de Secuencia UML con PlantUML</h1>
   <textarea id="umlInput">@startuml
-actor Usuario
-participant ConfirmTaskInteractorImpl
-participant VerificationController
-participant VerificationTaskService
-participant VerificationTaskRepository
 
-Usuario -> ConfirmTaskInteractorImpl : getTaskInfoAndRequiredItems()
-ConfirmTaskInteractorImpl -> VerificationController : getTaskInfoByUser()
-VerificationController -> VerificationTaskService : getTaskInfoByUser()
-VerificationTaskService -> VerificationTaskRepository : getTaskById()
-VerificationTaskRepository --> VerificationTaskService : Resultado
-VerificationTaskService --> VerificationController : Resultado
-VerificationController --> ConfirmTaskInteractorImpl : Resultado
-@enduml</textarea>
+@startuml
+actor Usuario
+participant "Interfaz Web" as UI
+participant "Controlador" as C
+participant "Base de Datos" as DB
+
+Usuario -> UI : Ingresa credenciales
+UI -> C : enviarCredenciales(usuario, contraseña)
+C -> DB : consultarUsuario(usuario)
+DB --> C : datosUsuario
+C -> C : validarCredenciales()
+C --> UI : mostrarPantallaInicio()
+UI --> Usuario : Bienvenido
+@enduml
+</textarea>
   <br>
   <button onclick="generarDiagrama()">Generar Diagrama</button>
   
